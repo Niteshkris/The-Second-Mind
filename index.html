@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second Mind</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0f29, #1c2333);
+            color: white;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .header {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #4db8ff;
+        }
+
+        .subheader {
+            font-size: 18px;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: #d1d1d1;
+        }
+
+        .container {
+            width: 600px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            font-size: 22px;
+            font-weight: 400;
+            color: #ffffff;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 14px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #4db8ff;
+        }
+
+        button {
+            padding: 12px 20px;
+            background: #4db8ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #3498db;
+        }
+
+        #response {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 16px;
+            white-space: pre-wrap;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">Second Mind</div>
+    <div class="subheader">Team Vikings welcomes you</div>
+
+    <div class="container">
+        <h2>Ask Your AI</h2>
+        <input type="text" id="userQuery" placeholder="Type your query...">
+        <button onclick="getResponse()">Submit</button>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        function getResponse() {
+            const query = document.getElementById("userQuery").value;
+            if (!query) {
+                alert("Please enter a query");
+                return;
+            }
+            document.getElementById("response").innerHTML = "Processing...";
+            
+            fetch("http://127.0.0.1:5000/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("response").innerHTML = "<strong>Best AI Response:</strong> <br>" + data.response;
+            })
+            .catch(error => {
+                document.getElementById("response").innerHTML = "Error: Unable to fetch response. Check server!";
+            });
+        }
+    </script>
+</body>
+</html>
