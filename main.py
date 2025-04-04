@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)  # Enable CORS for frontend communication
 
 # Set OpenRouter API key (replace with your actual key)
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "sk-or-v1"
 API_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 # ✅ Research-Based Keywords
